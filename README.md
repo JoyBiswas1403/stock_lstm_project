@@ -7,7 +7,7 @@
 <a href="https://streamlit.io/"><img alt="Streamlit" src="https://img.shields.io/badge/Streamlit-D43F3A?style=for-the-badge&logo=streamlit"/></a>
 <a href="https://www.tensorflow.org/"><img alt="TensorFlow" src="https://img.shields.io/badge/TensorFlow-LSTM-orange?style=for-the-badge&logo=tensorflow"/></a>
 <img alt="Status" src="https://img.shields.io/badge/Status-Completed-brightgreen?style=for-the-badge"/>
-<img alt="License" src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge"/>
+
 
 </p>
 
