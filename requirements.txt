@@ -6,3 +6,4 @@ matplotlib
 tensorflow==2.*
 ta
 streamlit
+plotly
