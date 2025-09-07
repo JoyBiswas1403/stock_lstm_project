@@ -53,16 +53,24 @@ This repository contains the full implementation of an advanced Stock Price Tren
 ---
 ## 🛠 Installation & Usage
 1. Clone the repository:
+---
 git clone https://github.com/JoyBiswas1403/stock_lstm_project.git
 cd stock_lstm_project
+---
 2. Create and activate a Python virtual environment (optional but recommended):
+---
 python -m venv venv
 source venv/bin/activate # Linux/macOS
 venv\Scripts\activate.bat # Windows
+---
 3. Install dependencies:
+---
 pip install -r requirements.txt
+---
 4. Run the Streamlit app:
+---
 streamlit run app.py
+---
 ---
 ## 🚀 How to Run the App
 - Use the sidebar to select stock ticker and date range.
@@ -90,3 +98,4 @@ Contributions and suggestions are welcome! Please open issues or submit pull req
 <p align="center">
 Thank you for visiting my repository! Feel free to explore, give feedback, and connect.  
 </p>
+
