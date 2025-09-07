@@ -87,6 +87,15 @@ def forecast(model, data, lookback, days, scaler):
         input_seq = np.concatenate((input_seq[:,1:,:], pred.reshape(1,1,1)), axis=1)
     return scaler.inverse_transform(np.array(forecasted).reshape(-1,1))
 
+def safe_float(val, numfmt):
+    try:
+        val_float = float(val)
+        if np.isnan(val_float):
+            return "N/A"
+        return numfmt.format(val_float)
+    except Exception:
+        return "N/A"
+
 # ----- Data Load -----
 df = load_data(ticker, start_date, end_date)
 if df.empty:
@@ -99,14 +108,16 @@ tab1, tab2, tab3 = st.tabs(["Data & Indicators", "Model Training", "Forecast"])
 # ----- Data & Indicators Tab -----
 with tab1:
     st.subheader("Data & Indicators")
-    # KPIs: Casting to float to fix formatting error
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Current Price", f"{float(df['Close'].iloc[-1]):,.2f}")
-    col2.metric("MA20", f"{float(df['MA20'].iloc[-1]):,.2f}")
-    col3.metric("RSI14", f"{float(df['RSI14'].iloc[-1]):,.1f}")
-    col4.metric("MACD", f"{float(df['MACD'].iloc[-1]):,.2f}")
+    # Debug: show last rows for troubleshooting
+    st.write("Latest data rows for debugging:")
+    st.dataframe(df.tail(3))
 
-    # Price Chart: Candlestick + MAs + Bollinger Bands
+    col1, col2, col3, col4 = st.columns(4)
+    col1.metric("Current Price", safe_float(df['Close'].iloc[-1], "{:,.2f}"))
+    col2.metric("MA20", safe_float(df['MA20'].iloc[-1], "{:,.2f}"))
+    col3.metric("RSI14", safe_float(df['RSI14'].iloc[-1], "{:,.1f}"))
+    col4.metric("MACD", safe_float(df['MACD'].iloc[-1], "{:,.2f}"))
+
     fig = go.Figure(data=[go.Candlestick(
         x=df.index,
         open=df['Open'],
@@ -160,7 +171,6 @@ with tab3:
         forecast_dates = pd.bdate_range(last_date, periods=forecast_days+1, freq='B')[1:]
         forecast_df = pd.DataFrame({"Date": forecast_dates, "Forecast": forecasted.flatten()})
 
-        # Prepare data for merged plotting
         hist_df = df[['Close']].copy().rename(columns={'Close': 'Price'})
         forecast_df = forecast_df.rename(columns={'Forecast': 'Price'}).set_index('Date')
         combined = pd.concat([hist_df, forecast_df])
